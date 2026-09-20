@@ -1,21 +1,8 @@
-# ACEQSA – Rediseño completo v2
+# ACEQSA – rediseño mejorado
+Incluye sitio responsive, ES/EN, modo claro/oscuro, accesibilidad ampliada, iconos SVG de redes, WhatsApp, mapa, contacto, cotizador multítem, SEO técnico, sitemap, robots.txt y archivos de seguridad.
 
-Prototipo estático responsive con múltiples páginas.
+## Seguridad
+El proyecto es estático y no almacena datos. Los formularios preparan un correo local. Se añadió CSP, referrer policy, `rel=noopener noreferrer`, validación y límites de longitud, `security.txt` y `_headers` para hosts compatibles. GitHub Pages no aplica `_headers`; para cabeceras HTTP reales se requiere Cloudflare/hosting compatible.
 
-## Incluye
-- Header sticky siempre visible al desplazarse.
-- Navegación completa: Inicio, Nosotros, Servicios, Productos, Ofertas, Academia, Ebooks, Referidos, Contacto.
-- Páginas individuales para categorías de productos y servicios.
-- WhatsApp configurado a **+506 8698-7840**.
-- Iconos/enlaces Facebook y YouTube (YouTube apunta a búsqueda de ACEQSA Costa Rica porque no se confirmó un canal oficial).
-- Light/Dark mode con persistencia local.
-- Selector ES/EN para textos marcados con traducción.
-- Panel de accesibilidad, alto contraste, tamaño de texto y reducción de movimiento.
-- Botón flotante para volver arriba.
-- Calculadora de cotización orientativa. **Los precios son valores demostrativos**, no precios reales de ACEQSA.
-- Formulario de contacto que prepara un correo a servicioalcliente@aceqsa.com.
-- Footer con logo visible sobre fondo blanco.
-- sitemap.xml y robots.txt.
-
-## Producción
-Antes de publicar, se recomienda conectar formulario/cotizador a backend o CRM, verificar el canal oficial de YouTube, confirmar horarios y contactos, incorporar catálogo/precios desde fuente administrable, analítica, CSP, CAPTCHA, política de privacidad, consentimiento de cookies cuando aplique y pruebas WCAG 2.2 AA.
+## Verificación recomendada
+Ejecutar Lighthouse, axe/WAVE, validación HTML, pruebas de teclado, zoom 200–400 %, lector de pantalla, OWASP ZAP passive scan sobre el despliegue y revisión de cabeceras HTTP.

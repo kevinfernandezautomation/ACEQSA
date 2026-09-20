@@ -1,0 +1,3 @@
+Contact: mailto:serviciotecnico@aceqsa.com
+Canonical: https://aceqsa.com/security.txt
+Preferred-Languages: es, en

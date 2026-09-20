@@ -1,0 +1,68 @@
+ACEQSA — BANCO DE IDEAS PARA VIDEOS CORTOS DE YOUTUBE
+Objetivo: contenido educativo de 20–60 segundos. No presentar precios estimados como precios oficiales.
+
+ALMACENAMIENTO
+1. HDD interno: “HDD vs SSD en 30 segundos”.
+2. HDD externo: “3 usos de un disco externo para oficina”.
+3. SSD: “Por qué un SSD acelera una computadora”.
+4. Cintas de respaldo: “¿Por qué empresas aún usan cintas?”.
+5. Llaves USB: “3 criterios antes de comprar una memoria USB”.
+6. NAS: “NAS explicado con un ejemplo sencillo”.
+
+REDES
+7. Switch: “Switch vs router: diferencia rápida”.
+8. Router: “Dónde colocar el router para mejorar cobertura”.
+9. Punto de acceso: “Cuándo una oficina necesita access points”.
+10. Cableado: “Cat5e, Cat6 y Cat6A: qué cambia”.
+11. Rack: “Antes/después de ordenar un rack”.
+12. Hub: “Hub vs switch”.
+
+COMPUTADORAS
+13. Portátil: “3 datos antes de comprar laptop”.
+14. Notebook: “Laptop para estudio vs trabajo”.
+15. Escritorio: “Desktop: cuándo sigue siendo mejor”.
+16. Servidor: “Servidor explicado para una PYME”.
+17. Todo-en-uno: “Ventajas y límites de un All-in-One”.
+18. Workstation: “PC normal vs workstation”.
+19. Tableta: “Tablet como herramienta de ventas”.
+20. Monitor: “Resolución, tamaño y Hz sin complicaciones”.
+
+PARTES
+21. Tarjeta madre: “Qué conecta una motherboard”.
+22. RAM: “8, 16 o 32 GB: guía rápida”.
+23. Tarjeta de red: “Cuándo actualizar Ethernet/Wi-Fi”.
+24. Unidad óptica: “¿Todavía tiene sentido una unidad óptica?”.
+25. Fuente de poder: “Por qué no ahorrar de más en la fuente”.
+
+PERIFÉRICOS
+26. Teclado/mouse: “Ergonomía básica en escritorio”.
+27. Mini mouse: “Kit ligero para trabajo móvil”.
+28. Headset: “Qué revisar para videollamadas”.
+29. Parlantes: “2.0 vs 2.1”.
+30. Webcam: “Cómo mejorar una videollamada sin cambiar de PC”.
+
+ACCESORIOS
+31. Maletines/fundas: “Protección correcta para laptop”.
+32. Mochilas: “Qué revisar en una mochila tecnológica”.
+33. Base ventilada: “Cuándo puede ayudar una base ventilada”.
+34. Mousepad: “Tamaño y superficie”.
+35. Limpieza: “Limpieza segura de equipo: qué evitar”.
+
+IMPRESIÓN
+36. Inyección: “Inkjet: para quién conviene”.
+37. Láser: “Láser vs tinta”.
+38. Multifuncional: “4 funciones en un solo equipo”.
+39. POS: “Impresora para punto de venta”.
+40. Matriz de punto: “Por qué todavía se usa”.
+41. Escáner: “Digitalizar documentos mejor”.
+42. Plotter: “Qué es impresión de gran formato”.
+43. Impresora portátil: “Impresión móvil para campo”.
+
+SERVICIOS
+44. Preventivo: “5 señales de que el equipo necesita mantenimiento”.
+45. Correctivo: “Qué información llevar al técnico”.
+46. Repuestos: “Cómo identificar correctamente cargador/batería”.
+47. Cableado estructurado: “Qué hace profesional a una red”.
+48. Diagnóstico: “Antes de reemplazar una PC, diagnostique”.
+49. Respaldo: “Regla 3-2-1 explicada”.
+50. Compra empresarial: “Cómo preparar una cotización tecnológica”.

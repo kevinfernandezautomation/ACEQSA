@@ -1,0 +1,94 @@
+ACEQSA — PASO A PASO PARA CAMBIAR ACEQSA.COM AL NUEVO SITIO
+Actualizado: septiembre de 2026
+
+OBJETIVO
+Sustituir el sitio actual por la nueva versión estática sin perder el dominio aceqsa.com, minimizando tiempo fuera de línea.
+
+ANTES DE CAMBIAR NADA
+1. Confirmar quién administra el dominio aceqsa.com y quién controla sus registros DNS.
+2. Exportar/capturar los registros DNS actuales: A, AAAA, CNAME, MX, TXT, SPF, DKIM y DMARC.
+3. NO borrar ni modificar MX/TXT de correo durante la migración. El sitio web y el correo son servicios distintos.
+4. Hacer copia completa del sitio actual y conservarla como rollback.
+5. Revisar la nueva versión localmente y en GitHub Pages antes de mover el dominio.
+6. Confirmar que index.html, styles.css, script.js, assets/, robots.txt, sitemap.xml y las páginas HTML estén publicados.
+7. Probar navegación, móvil, formularios, cotizador, WhatsApp, idiomas, accesibilidad, imágenes y enlaces.
+8. Verificar que no existan claves, contraseñas, tokens o archivos privados en el repositorio.
+
+PUBLICAR PRIMERO EN GITHUB PAGES
+9. Subir el contenido del ZIP al repositorio que publicará ACEQSA.
+10. En GitHub: Settings > Pages.
+11. Elegir la fuente de publicación correspondiente (por ejemplo, Deploy from a branch, main, /(root)).
+12. Esperar a que el sitio temporal de GitHub Pages funcione correctamente.
+13. Recorrer todas las páginas antes de cambiar DNS.
+
+VERIFICAR EL DOMINIO
+14. GitHub recomienda verificar el dominio antes de asociarlo al repositorio para reducir riesgo de domain takeover.
+15. En la configuración de Pages de la cuenta, agregar aceqsa.com como dominio verificado.
+16. GitHub mostrará un registro TXT de verificación.
+17. Crear exactamente ese TXT en el proveedor DNS.
+18. Esperar propagación y completar Verify.
+19. Mantener el TXT de verificación después de completar el proceso.
+
+ASOCIAR ACEQSA.COM AL REPOSITORIO
+20. En el repositorio: Settings > Pages > Custom domain.
+21. Escribir aceqsa.com y guardar.
+22. Si la publicación es desde una rama, GitHub puede crear un archivo CNAME en la raíz. No eliminarlo.
+23. Confirmar que el CNAME contiene solamente: aceqsa.com
+
+DNS PARA EL DOMINIO RAÍZ
+24. En el proveedor DNS, configurar los registros A de @ hacia GitHub Pages:
+    185.199.108.153
+    185.199.109.153
+    185.199.110.153
+    185.199.111.153
+25. GitHub también permite AAAA para IPv6:
+    2606:50c0:8000::153
+    2606:50c0:8001::153
+    2606:50c0:8002::153
+    2606:50c0:8003::153
+26. Si el proveedor ofrece ALIAS/ANAME en el apex, GitHub también admite apuntarlo al dominio GitHub Pages de la cuenta.
+27. No crear registros DNS comodín (*) para GitHub Pages.
+
+WWW
+28. Crear un CNAME para www apuntando al dominio GitHub Pages de la cuenta, por ejemplo:
+    kevinfernandezautomation.github.io
+29. No apuntar www directamente a aceqsa.com si eso interfiere con HTTPS; seguir la configuración recomendada por GitHub.
+30. GitHub puede redirigir entre el apex y www cuando ambos DNS están correctamente configurados.
+
+MUY IMPORTANTE: CORREO
+31. Conservar intactos los MX existentes de aceqsa.com.
+32. Conservar SPF, DKIM, DMARC y verificaciones de correo.
+33. Antes y después del cambio, probar:
+    aceqnet@racsa.co.cr
+    servicioalcliente@aceqsa.com
+    serviciotecnico@aceqsa.com
+34. Enviar un correo hacia aceqsa.com y otro desde aceqsa.com para confirmar que el cambio web no afectó el correo.
+
+HTTPS
+35. Esperar a que GitHub valide DNS y emita el certificado.
+36. En Settings > Pages activar Enforce HTTPS cuando esté disponible.
+37. La emisión puede no ser inmediata; GitHub indica que cambios DNS pueden tardar hasta 24 horas en propagarse.
+38. Probar https://aceqsa.com y https://www.aceqsa.com.
+39. Confirmar que no exista contenido mixto HTTP en CSS, JavaScript o imágenes.
+
+PRUEBAS POSTERIORES
+40. Inicio carga correctamente.
+41. Productos y Servicios muestran imágenes.
+42. Ofertas muestra las dos imágenes.
+43. Nosotros muestra socios/marcas.
+44. Noticias muestra las tres noticias y sus botones.
+45. Contacto muestra teléfono, fax y los tres correos claramente.
+46. Cotizador permite país, moneda, filtro, IVA y correo.
+47. ES/EN funciona.
+48. Navegación móvil funciona en 320, 360, 375, 390, 412 y 430 px.
+49. Ejecutar Lighthouse y una herramienta de accesibilidad como axe/WAVE.
+50. Revisar Search Console después de publicar y enviar sitemap.xml.
+
+ROLLBACK
+51. No cancelar el hosting anterior el mismo día del cambio.
+52. Mantener copia del sitio anterior y de sus DNS.
+53. Si la nueva web falla, restaurar los registros web anteriores (A/CNAME) sin tocar MX/TXT de correo.
+54. Una vez estable y verificada la nueva web, retirar el hosting anterior según el contrato del proveedor.
+
+NOTA DE SEGURIDAD
+No cambiar DNS sin acceso autorizado al dominio. No compartir contraseñas, tokens ni códigos 2FA. GitHub recomienda configurar el dominio personalizado en Pages antes de cambiar los DNS y verificar el dominio para reducir el riesgo de que otro repositorio reclame el dominio.

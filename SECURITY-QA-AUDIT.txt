@@ -1,0 +1,19 @@
+ACEQSA SECURITY / QA STATIC AUDIT
+Files checked: 20
+Checks executed: 80
+Failed static checks: 0
+
+Implemented:
+- CSP baseline and strict referrer policy
+- noreferrer/noopener on external new-tab links
+- no inline third-party scripts
+- no storage/transmission of form data by the site
+- maxlength and browser validation on forms
+- textContent/DOM APIs for dynamic quote rows (avoids HTML injection)
+- security.txt and deployment header recommendations
+- accessibility keyboard focus, skip link, reduced motion and persistent preferences
+
+Limitations:
+- A static local audit is not a penetration test of aceqsa.com infrastructure.
+- GitHub Pages does not honor _headers. Apply equivalent headers through Cloudflare or a compatible host.
+- Server/TLS/CORS/authentication vulnerabilities require testing the deployed production environment with authorization.
