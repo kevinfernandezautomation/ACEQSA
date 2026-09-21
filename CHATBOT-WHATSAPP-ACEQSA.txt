@@ -1,0 +1,69 @@
+CHATBOT DE WHATSAPP PARA ACEQSA — REQUERIMIENTOS TÉCNICOS Y PASOS
+
+Objetivo sugerido
+Atender preguntas frecuentes, orientar sobre productos/servicios, recopilar datos para cotizaciones, informar horario y transferir conversaciones a una persona cuando sea necesario.
+
+1. Activos de Meta
+- Crear/usar un Meta Business Portfolio.
+- Configurar una WhatsApp Business Account (WABA).
+- Registrar un número empresarial para WhatsApp Business Platform / Cloud API.
+- Crear una aplicación de Meta con el producto WhatsApp.
+
+2. Backend
+- Servicio HTTPS público (por ejemplo Node.js/TypeScript, Python o Java).
+- Endpoint GET para la verificación inicial del webhook.
+- Endpoint POST para recibir eventos/mensajes mediante webhook.
+- Variables seguras para access token, App Secret, verify token, phone number ID y WABA ID.
+- Nunca exponer tokens en HTML/JavaScript del navegador.
+
+3. Webhooks
+- Configurar URL HTTPS de callback y verify token.
+- Suscribir la aplicación a la WABA y a los eventos de mensajes requeridos.
+- Validar autenticidad de solicitudes y registrar errores sin almacenar datos sensibles innecesarios.
+
+4. Motor conversacional
+Flujos iniciales recomendados:
+1) Cotizar productos.
+2) Solicitar servicio técnico.
+3) Reparación de celulares.
+4) Academia/capacitación.
+5) Horarios y contacto.
+6) Métodos de pago.
+7) Hablar con una persona.
+
+El bot debe pedir únicamente los datos necesarios: nombre, empresa (opcional), país, necesidad y medio de seguimiento. Debe confirmar antes de enviar una solicitud comercial.
+
+5. Integración con IA (opcional)
+- El webhook envía el mensaje a un backend.
+- El backend consulta una base de conocimiento aprobada de ACEQSA y, si se desea, un LLM.
+- Aplicar instrucciones para no inventar precios, inventario, garantías ni tiempos de reparación.
+- Cuando no haya información suficiente, escalar a servicio al cliente.
+- Mantener productos, servicios, horarios, políticas y preguntas frecuentes en una fuente actualizable.
+
+6. Seguridad y operación
+- HTTPS/TLS.
+- Secretos en variables de entorno o secret manager.
+- Control de acceso a paneles administrativos.
+- Logs con minimización de datos personales.
+- Rate limiting y manejo de reintentos.
+- Política de privacidad y consentimiento cuando corresponda.
+- Backups de configuración y monitoreo de disponibilidad.
+
+7. Pruebas antes de producción
+- Webhook GET/POST.
+- Mensaje entrante y respuesta.
+- Cotización completa e incompleta.
+- Cambio a agente humano.
+- Mensajes duplicados/reintentos.
+- Errores de API y timeouts.
+- Español e inglés.
+- Seguridad de tokens y logs.
+- Prueba de carga controlada del webhook.
+
+8. Arquitectura mínima
+WhatsApp -> Meta Cloud API -> Webhook HTTPS ACEQSA -> Motor de reglas/IA -> Catálogo/FAQ/CRM -> Cloud API -> Cliente.
+
+9. Recomendación de primera versión
+Empezar con menú y reglas deterministas para cotización, horarios, servicios y escalamiento humano. Añadir IA generativa después, con base de conocimiento controlada y guardrails, para reducir respuestas incorrectas.
+
+Fuentes de referencia consultadas: documentación oficial de WhatsApp Business Platform/Cloud API y webhooks de Meta.

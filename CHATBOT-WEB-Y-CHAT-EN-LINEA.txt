@@ -1,0 +1,61 @@
+CHATBOT WEB + CHAT EN LÍNEA PARA ACEQSA
+=======================================
+
+OBJETIVO
+Implementar en aceqsa.com un único widget que atienda consultas frecuentes de forma automática y permita transferir la conversación a una persona cuando sea necesario.
+
+IMPORTANCIA
+- Atención inicial 24/7 para preguntas repetitivas.
+- Reduce tiempo dedicado a horarios, productos, servicios, métodos de pago y estado inicial de solicitudes.
+- Captura prospectos aun cuando no haya un agente disponible.
+- El chat en línea conserva el valor humano para cotizaciones complejas, garantías, soporte y reclamos.
+- Permite medir temas consultados, abandono, derivaciones y oportunidades comerciales.
+
+ARQUITECTURA RECOMENDADA
+Visitante -> widget web -> backend seguro -> motor de conversación/base de conocimiento -> respuesta automática.
+                                                   -> bandeja de agentes -> asesor ACEQSA.
+                                                   -> CRM/tickets (opcional).
+
+REQUERIMIENTOS TÉCNICOS
+1. Sitio HTTPS y widget responsive/accesible.
+2. Backend (Node.js, Python u otra tecnología de servidor). No colocar claves de IA/API en JavaScript público.
+3. Base de conocimiento controlada: productos, servicios, horarios, ubicaciones, métodos de pago, FAQ, garantías y políticas.
+4. Proveedor de IA opcional o motor basado en reglas. Si se usa IA, implementar RAG/búsqueda sobre contenido aprobado para reducir respuestas inventadas.
+5. Base de datos para conversaciones y leads solo cuando sea necesario, con retención definida y controles de acceso.
+6. Consola/bandeja para agentes humanos, estados online/offline y transferencia del bot al asesor.
+7. WebSocket o servicio de tiempo real para chat humano; como alternativa, un proveedor SaaS de live chat.
+8. Autenticación para agentes, roles, MFA recomendado, logs y auditoría.
+9. Rate limiting, validación de entradas, protección XSS/CSRF, sanitización y gestión segura de secretos.
+10. Aviso de privacidad/consentimiento cuando se recopilen nombre, correo, teléfono u otros datos personales.
+
+FLUJO SUGERIDO
+- Saludo breve.
+- Botones: Productos | Servicios | Cotizar | Soporte técnico | Academia | Métodos de pago | Horarios | Hablar con un asesor.
+- El bot responde solo con información aprobada.
+- Si falta información o el usuario solicita una persona: crear transferencia.
+- Si hay agentes: mostrar “Un asesor se unirá al chat”.
+- Si no hay agentes: solicitar datos mínimos y generar ticket/contacto para seguimiento.
+
+PASOS DE IMPLEMENTACIÓN
+1. Definir casos de uso y preguntas frecuentes reales.
+2. Preparar y aprobar la base de conocimiento.
+3. Elegir entre solución propia o plataforma de chat en línea.
+4. Crear backend/API y almacenamiento mínimo necesario.
+5. Crear widget flotante accesible y adaptable a móvil.
+6. Implementar conversación automática y handoff humano.
+7. Crear bandeja de agentes y notificaciones.
+8. Integrar analítica: conversaciones, resolución automática, derivación, leads y satisfacción.
+9. Ejecutar pruebas funcionales, seguridad, accesibilidad, carga y dispositivos móviles.
+10. Lanzar piloto, revisar conversaciones fallidas y mejorar contenido.
+
+REGLAS PARA ACEQSA
+- No inventar precios, disponibilidad, garantías, tiempos de reparación ni certificaciones.
+- Para precio/stock, dirigir al cotizador o a un asesor.
+- No solicitar contraseñas, datos bancarios completos ni información innecesaria.
+- Identificar claramente cuándo responde un asistente automático y cuándo un asesor humano.
+- Ofrecer siempre una salida sencilla hacia atención humana.
+
+MVP RECOMENDADO
+Fase 1: FAQ + productos/servicios + horario + cotizador + captura de lead + transferencia humana.
+Fase 2: IA con conocimiento ACEQSA + historial/tickets + CRM + métricas.
+Fase 3: integración omnicanal con WhatsApp Business y otros canales si ACEQSA lo requiere.

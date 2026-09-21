@@ -40,13 +40,14 @@ $$('[data-placeholder-es]').forEach(el=>el.placeholder=lang==='es'?el.dataset.pl
  const dataEl=document.getElementById('market-data'); if(!dataEl)return;
  const DATA=JSON.parse(dataEl.textContent.replaceAll('&quot;','"').replaceAll('&amp;','&'));
  const kind=document.getElementById('quote-kind'),cur=document.getElementById('quote-currency'),search=document.getElementById('quote-search'),results=document.getElementById('quote-results'),qty=document.getElementById('quote-qty'),add=document.getElementById('add-selected');
- let selected=null,cart=[]; const USDCRC=500; // reference conversion only, not a live FX quote
+ let selected=null,cart=[]; const USDCRC=500;
+ if(qty){qty.setAttribute('inputmode','numeric');qty.addEventListener('input',()=>{let v=String(qty.value).replace(/\D/g,'').slice(0,4);if(Number(v)>9999)v='9999';qty.value=v});qty.addEventListener('blur',()=>{if(!qty.value||Number(qty.value)<1)qty.value='1'})} // reference conversion only, not a live FX quote
  const money=n=>cur.value==='USD'?new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(n/USDCRC):new Intl.NumberFormat('es-CR',{style:'currency',currency:'CRC',maximumFractionDigits:0}).format(n);
  function filtered(){const q=(search.value||'').toLowerCase().trim();const cat=document.getElementById('quote-category');const cv=cat?cat.value:'all';return DATA.filter(x=>(kind.value==='all'||x.kind===kind.value)&&(cv==='all'||x.name.startsWith(cv+' —'))&&x.name.toLowerCase().includes(q)).slice(0,12)}
- function show(){results.innerHTML='';filtered().forEach(x=>{const b=document.createElement('button');b.type='button';b.className='quote-result';const catSel=document.getElementById('quote-category');const displayName=(catSel&&catSel.value!=='all'&&x.name.startsWith(catSel.value+' — '))?x.name.slice((catSel.value+' — ').length):x.name;b.textContent=`${displayName} — ${money(x.price)} + IVA`;b.onclick=()=>{selected=x;search.value=x.name;add.disabled=false;results.innerHTML=''};results.append(b)})}
+ function show(){results.innerHTML='';filtered().forEach(x=>{const b=document.createElement('button');b.type='button';b.className='quote-result';const catSel=document.getElementById('quote-category');const displayName=(catSel&&catSel.value!=='all'&&x.name.startsWith(catSel.value+' — '))?x.name.slice((catSel.value+' — ').length):x.name;b.textContent=`${displayName} — ${money(x.price)} + IVA`;b.onclick=()=>{selected=x;search.value=x.name;qty.value='1';add.disabled=false;results.innerHTML=''};results.append(b)})}
  [kind,cur,search].forEach(e=>e.addEventListener(e===search?'input':'change',()=>{selected=null;add.disabled=true;show();render()}));
- add.addEventListener('click',()=>{if(!selected)return;const n=Math.max(1,Number(qty.value||1));const existing=cart.find(x=>x.name===selected.name&&x.kind===selected.kind&&x.price===selected.price);if(existing)existing.qty+=n;else cart.push({...selected,qty:n});selected=null;search.value='';add.disabled=true;show();render()});
- function render(){const ul=document.getElementById('market-quote-list');ul.innerHTML='';cart.forEach((x,i)=>{const li=document.createElement('li'),sp=document.createElement('span'),bt=document.createElement('button');const c=document.getElementById('quote-category');const dn=(c&&c.value!=='all'&&x.name.startsWith(c.value+' — '))?x.name.slice((c.value+' — ').length):x.name;sp.textContent=`${x.qty} × ${dn} — ${money(x.price*x.qty)}`;bt.textContent='Eliminar';bt.type='button';bt.onclick=()=>{cart.splice(i,1);render()};li.append(sp,bt);ul.append(li)});const sub=cart.reduce((a,x)=>a+x.price*x.qty,0),vat=sub*.13,total=sub+vat;document.getElementById('subtotal').textContent=money(sub);document.getElementById('vat').textContent=money(vat);document.getElementById('grand-total').textContent=money(total)}
+ add.addEventListener('click',()=>{if(!selected)return;const n=Math.min(9999,Math.max(1,Number(qty.value||1)));qty.value=String(n);const existing=cart.find(x=>x.name===selected.name&&x.kind===selected.kind&&x.price===selected.price);if(existing)existing.qty+=n;else cart.push({...selected,qty:n});selected=null;search.value='';add.disabled=true;show();render()});
+ function render(){const ul=document.getElementById('market-quote-list');ul.innerHTML='';cart.forEach((x,i)=>{const li=document.createElement('li'),sp=document.createElement('span'),actions=document.createElement('span'),edit=document.createElement('button'),bt=document.createElement('button');actions.className='quote-item-actions';const c=document.getElementById('quote-category');const dn=(c&&c.value!=='all'&&x.name.startsWith(c.value+' — '))?x.name.slice((c.value+' — ').length):x.name;sp.textContent=`${x.qty} × ${dn} — ${money(x.price*x.qty)}`;edit.textContent=lang==='en'?'Edit':'Editar';edit.type='button';edit.onclick=()=>{actions.innerHTML='';const inp=document.createElement('input'),save=document.createElement('button');inp.type='number';inp.min='1';inp.max='9999';inp.value=String(x.qty);inp.className='quote-edit-input';inp.setAttribute('aria-label',lang==='en'?'Quantity':'Cantidad');inp.addEventListener('input',()=>{inp.value=inp.value.replace(/\D/g,'').slice(0,4);if(Number(inp.value)>9999)inp.value='9999'});save.type='button';save.textContent=lang==='en'?'Save':'Guardar';save.onclick=()=>{x.qty=Math.min(9999,Math.max(1,Number(inp.value||1)));render()};actions.append(inp,save);inp.focus()};bt.textContent=lang==='en'?'Remove':'Eliminar';bt.type='button';bt.onclick=()=>{cart.splice(i,1);render()};actions.append(edit,bt);li.append(sp,actions);ul.append(li)});const sub=cart.reduce((a,x)=>a+x.price*x.qty,0),vat=sub*.13,total=sub+vat;document.getElementById('subtotal').textContent=money(sub);document.getElementById('vat').textContent=money(vat);document.getElementById('grand-total').textContent=money(total)}
  document.getElementById('send-market-quote').addEventListener('click',()=>{if(!cart.length){alert('Agregue al menos un producto o servicio.');return}const sub=cart.reduce((a,x)=>a+x.price*x.qty,0),vat=sub*.13,total=sub+vat;const lines=cart.map(x=>`${x.qty} x ${x.name} — ${money(x.price*x.qty)}`).join('\n');const customer=document.getElementById('quote-customer-name')?.value.trim()||'';const msg=`Cliente: ${customer}\nMoneda: ${cur.value}\nPaís: ${document.getElementById('quote-country2').value}\n\n${lines}\n\nSubtotal: ${money(sub)}\nIVA 13%: ${money(vat)}\nTotal estimado: ${money(total)}\n\nNotas: ${document.getElementById('quote-notes2').value}\n\nSolicito confirmación de precio y disponibilidad.`;location.href=`mailto:servicioalcliente@aceqsa.com?subject=${encodeURIComponent('Cotización ACEQSA')}&body=${encodeURIComponent(msg)}`});
  show();render();
 })();
@@ -62,7 +63,7 @@ document.querySelectorAll('[data-lang]').forEach(b=>b.addEventListener('click',(
 // Careers email form.
 document.getElementById('career-form')?.addEventListener('submit',e=>{
  e.preventDefault(); const f=e.currentTarget;if(!f.reportValidity())return;const d=new FormData(f);
- const body=`Nombre: ${d.get('name')}\nEmail: ${d.get('email')}\nPaís: ${d.get('country')}\nLinkedIn: ${d.get('linkedin')||''}\nÁrea: ${d.get('area')}\n\n${d.get('profile')}`;
+ const body=`Nombre: ${d.get('name')}\nEmail: ${d.get('email')}\nPaís: ${d.get('country')}\nLinkedIn: ${d.get('linkedin')||''}\nÁrea: ${d.get('area')}\n\n¿Por qué desea trabajar con nosotros?:\n${d.get('profile')}\n\nCover Letter:\n${d.get('coverletter')||''}`;
  location.href=`mailto:servicioalcliente@aceqsa.com?subject=${encodeURIComponent('Perfil profesional — ACEQSA')}&body=${encodeURIComponent(body)}`;
 });
 
@@ -130,3 +131,86 @@ document.getElementById('send-market-quote')?.addEventListener('click',e=>{
 
 // v8 home carousel.
 (()=>{const slides=[...document.querySelectorAll('.carousel-slide')];if(!slides.length)return;let i=0,t;const show=n=>{slides[i].classList.remove('active');i=(n+slides.length)%slides.length;slides[i].classList.add('active')},auto=()=>{clearInterval(t);if(!matchMedia('(prefers-reduced-motion: reduce)').matches)t=setInterval(()=>show(i+1),5500)};document.querySelector('.carousel-arrow.next')?.addEventListener('click',()=>{show(i+1);auto()});document.querySelector('.carousel-arrow.prev')?.addEventListener('click',()=>{show(i-1);auto()});auto()})();
+
+// v9: inline quote validation, company field, and bilingual WhatsApp/email messages.
+(()=>{
+ const name=document.getElementById('quote-customer-name'), country=document.getElementById('quote-country2'), company=document.getElementById('quote-company');
+ if(!name||!country)return;
+ const setError=(el,errorId,bad)=>{const err=document.getElementById(errorId);el.classList.toggle('field-invalid',bad);el.setAttribute('aria-invalid',bad?'true':'false');if(err){err.hidden=!bad;const l=localStorage.getItem('aceqsa-lang')||'es';err.textContent=l==='en'?'Required':'Requerido';}};
+ const validate=()=>{const a=!name.value.trim(),b=!country.value;setError(name,'quote-name-error',a);setError(country,'quote-country-error',b);if(a)name.focus();else if(b)country.focus();return !(a||b)};
+ name.addEventListener('input',()=>{if(name.value.trim())setError(name,'quote-name-error',false)});country.addEventListener('change',()=>{if(country.value)setError(country,'quote-country-error',false)});
+ const email=document.getElementById('send-market-quote'), wa=document.getElementById('send-market-whatsapp');
+ // Capture phase prevents older handlers from displaying popup validation.
+ [email,wa].forEach(btn=>btn?.addEventListener('click',e=>{if(!validate()){e.preventDefault();e.stopImmediatePropagation();}},true));
+ // Replace old email handler after validation by handling first in capture when valid.
+ email?.addEventListener('click',e=>{
+   if(!validate())return;
+   const items=[...document.querySelectorAll('#market-quote-list li span')].map(x=>x.textContent);
+   if(!items.length)return; // legacy handler keeps empty-cart behavior
+   e.preventDefault();e.stopImmediatePropagation();
+   const l=localStorage.getItem('aceqsa-lang')||'es', notes=document.getElementById('quote-notes2')?.value||'';
+   const body=l==='en'?`Customer: ${name.value.trim()}\nCompany / business: ${company?.value.trim()||'-'}\nCountry: ${country.options[country.selectedIndex]?.dataset.en||country.value}\n\nRequested items:\n${items.join('\n')}\n\nNotes: ${notes}\n\nPlease confirm price and availability.`:`Cliente: ${name.value.trim()}\nEmpresa / negocio: ${company?.value.trim()||'-'}\nPaís: ${country.value}\n\nProductos y servicios solicitados:\n${items.join('\n')}\n\nNotas: ${notes}\n\nSolicito confirmación de precio y disponibilidad.`;
+   location.href=`mailto:servicioalcliente@aceqsa.com?subject=${encodeURIComponent(l==='en'?'ACEQSA quote request':'Solicitud de cotización ACEQSA')}&body=${encodeURIComponent(body)}`;
+ },true);
+ // New WA handler runs before legacy one and fully localizes item labels from visible translated text when possible.
+ wa?.addEventListener('click',e=>{
+   if(!validate())return;
+   const spans=[...document.querySelectorAll('#market-quote-list li span')];if(!spans.length)return;
+   e.preventDefault();e.stopImmediatePropagation();
+   const l=localStorage.getItem('aceqsa-lang')||'es';
+   const items=spans.map(x=>x.textContent.replace(/\s+—\s+[₡$].*$/,'')).join(', ');
+   const c=l==='en'?(country.options[country.selectedIndex]?.dataset.en||country.value):country.value;
+   const co=company?.value.trim();
+   const msg=l==='en'?`Hello ACEQSA, my name is ${name.value.trim()}${co?` from ${co}`:''}. I would like to request a quote for: ${items}. I am from ${c}.`:`Hola ACEQSA, mi nombre es ${name.value.trim()}${co?` de ${co}`:''}. Deseo solicitar una cotización de: ${items}, soy del país de ${c}.`;
+   window.open('https://wa.me/50686987840?text='+encodeURIComponent(msg),'_blank','noopener,noreferrer');
+ },true);
+})();
+
+// v11: shared inline quote validation for both email and WhatsApp; no popup for required customer/country.
+(()=>{
+ const name=document.getElementById('quote-customer-name'), country=document.getElementById('quote-country2');
+ if(!name||!country)return;
+ const show=(el,id,bad)=>{const msg=document.getElementById(id);el.classList.toggle('field-invalid',bad);el.setAttribute('aria-invalid',bad?'true':'false');if(msg){msg.hidden=!bad;msg.textContent=(localStorage.getItem('aceqsa-lang')||'es')==='en'?'Required':'Requerido';}};
+ const valid=()=>{const a=!name.value.trim(),b=!country.value;show(name,'quote-name-error',a);show(country,'quote-country-error',b);if(a)name.focus();else if(b)country.focus();return !(a||b)};
+ ['send-market-quote','send-market-whatsapp'].forEach(id=>document.getElementById(id)?.addEventListener('click',e=>{if(!valid()){e.preventDefault();e.stopImmediatePropagation();}},true));
+})();
+
+// v11: home geolocation service. No custom UI is displayed; browser privacy controls still apply.
+(()=>{
+ if(!document.body.classList.contains('home-page') && !location.pathname.endsWith('/index.html') && location.pathname!=='/' )return;
+ if(!navigator.geolocation)return;
+ navigator.geolocation.getCurrentPosition(({coords})=>{
+   try{sessionStorage.setItem('aceqsa-location-hint',JSON.stringify({lat:+coords.latitude.toFixed(2),lon:+coords.longitude.toFixed(2),ts:Date.now()}));}catch{}
+ },()=>{}, {enableHighAccuracy:false,timeout:5000,maximumAge:1800000});
+})();
+
+// v13: automatic country suggestion on Contact without custom location UI.
+(()=>{
+ const select=document.querySelector('#contact-form select[name="country"]');
+ if(!select||select.value||!navigator.geolocation)return;
+ navigator.geolocation.getCurrentPosition(async({coords})=>{
+   try{
+     const r=await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${coords.latitude}&lon=${coords.longitude}&zoom=3`);
+     const d=await r.json(), code=(d.address?.country_code||'').toUpperCase();
+     const map={CR:'Costa Rica',US:'Estados Unidos',CA:'Canadá',MX:'México',PA:'Panamá',NI:'Nicaragua',HN:'Honduras',SV:'El Salvador',GT:'Guatemala',CO:'Colombia'};
+     const target=map[code]||d.address?.country;
+     const opt=[...select.options].find(o=>o.value===target||o.textContent===target||o.dataset.en===target);
+     if(opt&&!select.value)select.value=opt.value;
+   }catch{}
+ },()=>{}, {enableHighAccuracy:false,timeout:5000,maximumAge:600000});
+})();
+
+// v13: CV and cover-letter click/drag-and-drop selectors.
+(()=>{
+ const setup=(zoneId,inputId)=>{
+   const zone=document.getElementById(zoneId), input=document.getElementById(inputId); if(!zone||!input)return;
+   const name=zone.querySelector('.file-drop-name');
+   const render=()=>{const l=localStorage.getItem('aceqsa-lang')||'es'; name.textContent=input.files?.[0]?.name||(l==='en'?name.dataset.emptyEn:name.dataset.emptyEs);};
+   input.addEventListener('change',render);
+   ['dragenter','dragover'].forEach(type=>zone.addEventListener(type,e=>{e.preventDefault();zone.classList.add('is-dragover')}));
+   ['dragleave','drop'].forEach(type=>zone.addEventListener(type,e=>{e.preventDefault();zone.classList.remove('is-dragover')}));
+   zone.addEventListener('drop',e=>{const files=e.dataTransfer?.files;if(!files?.length)return;const dt=new DataTransfer();dt.items.add(files[0]);input.files=dt.files;input.dispatchEvent(new Event('change',{bubbles:true}));});
+   zone.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();input.click()}});
+ };
+ setup('cv-drop-zone','career-pdf'); setup('cover-drop-zone','cover-letter-file');
+})();
