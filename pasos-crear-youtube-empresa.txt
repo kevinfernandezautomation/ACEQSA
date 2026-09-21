@@ -1,0 +1,13 @@
+GUÍA BREVE: CREAR UN CANAL DE YOUTUBE PARA UNA EMPRESA
+
+1. Use una Cuenta de Google administrada por la empresa. Si el correo empresarial está gestionado con Google Workspace, puede utilizar esa cuenta; de lo contrario, la empresa debe definir la Cuenta de Google corporativa autorizada.
+2. Inicie sesión en YouTube con la Cuenta de Google de la empresa.
+3. Abra la lista de canales y seleccione la opción para crear un canal nuevo.
+4. Configure el nombre comercial, imagen y @identificador del canal.
+5. Para una identidad empresarial separada y administración compartida, utilice la modalidad de canal/cuenta de marca disponible en YouTube.
+6. Añada únicamente propietarios o administradores autorizados; cada persona debe usar su propia Cuenta de Google en lugar de compartir contraseñas.
+7. Configure logo, banner, descripción, enlaces oficiales y datos de contacto comercial.
+8. Active autenticación en dos pasos en las cuentas administradoras y revise periódicamente permisos y accesos.
+9. Antes de publicar, defina responsables, lineamientos de marca, derechos de uso de imágenes/música y un proceso de aprobación de contenido.
+
+Referencias consultadas: Ayuda oficial de YouTube, “Crear un canal de YouTube” y documentación de cuentas de marca (septiembre de 2026).

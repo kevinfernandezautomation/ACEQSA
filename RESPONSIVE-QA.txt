@@ -1,0 +1,8 @@
+RESPONSIVE / STATIC QA
+HTML pages: 21
+Automated structural checks: 63
+Failures: 0
+
+Breakpoints reviewed/implemented: >1100px, 980px, 900px, 620px and 480px.
+Adjusted: navigation density, collapsible mobile menu, grids, partner logos, cards, quote rows, forms, map, fixed accessibility/WhatsApp controls, CTA stacking and touch-friendly controls.
+Recommended after deployment: Chrome/Edge DevTools at 320, 360, 375, 390, 412, 430, 768, 820, 1024 and desktop; Lighthouse + axe/WAVE.
